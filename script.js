@@ -13,39 +13,70 @@ const MESSAGES = {
   "floating-whatsapp": "Olá, Jimmy e Sula! Vim pelo site da Barbearia Bertholdos e gostaria de agendar um horário."
 };
 let supabaseClient = null;
+
+function whatsappUrl(message){
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
 function iniciarSupabase(){
   if(typeof window.supabase === "undefined" || SUPABASE_URL.includes("COLE_AQUI") || SUPABASE_ANON_KEY.includes("COLE_AQUI")) return;
   supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
+
 async function registrarLead(source){
   if(!supabaseClient) return;
   try{
-    const {error}=await supabaseClient.from("leads").insert({event_type:"whatsapp_click",source:source||"unknown",page:window.location.pathname,user_agent:navigator.userAgent});
+    const {error}=await supabaseClient.from("leads").insert({
+      event_type:"whatsapp_click",
+      source:source||"unknown",
+      page:window.location.pathname,
+      user_agent:navigator.userAgent
+    });
     if(error) console.warn("Lead não salvo no Supabase:",error.message);
-  }catch(error){ console.warn("Falha ao registrar lead:",error); }
+  }catch(error){
+    console.warn("Falha ao registrar lead:",error);
+  }
 }
+
 function prepararWhatsApp(){
   document.querySelectorAll(".js-whatsapp").forEach(link=>{
     const source=link.dataset.lead||"whatsapp";
     const message=MESSAGES[source]||MESSAGES.hero;
-    link.href=`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    // Fallback direto: o WhatsApp continua funcionando mesmo se algum CDN/script falhar.
+    link.href=whatsappUrl(message);
     link.addEventListener("click",()=>registrarLead(source));
   });
 }
+
 function prepararNavbar(){
   const navbar=document.getElementById("navbar");
   if(!navbar)return;
   const update=()=>navbar.classList.toggle("scrolled",window.scrollY>20);
-  update(); window.addEventListener("scroll",update,{passive:true});
+  update();
+  window.addEventListener("scroll",update,{passive:true});
 }
+
 function prepararRevelacao(){
   const elements=document.querySelectorAll(".reveal");
   if(!elements.length)return;
-  if(!("IntersectionObserver" in window)){elements.forEach(e=>e.classList.add("visible"));return;}
-  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("visible");observer.unobserve(entry.target);}}),{threshold:.12});
+  if(!("IntersectionObserver" in window)){
+    elements.forEach(e=>e.classList.add("visible"));
+    return;
+  }
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target);
+    }
+  }),{threshold:.12});
   elements.forEach(e=>observer.observe(e));
 }
+
 document.addEventListener("DOMContentLoaded",()=>{
-  iniciarSupabase(); prepararWhatsApp(); prepararNavbar(); prepararRevelacao();
-  const year=document.getElementById("year"); if(year)year.textContent=new Date().getFullYear();
+  iniciarSupabase();
+  prepararWhatsApp();
+  prepararNavbar();
+  prepararRevelacao();
+  const year=document.getElementById("year");
+  if(year)year.textContent=new Date().getFullYear();
 });
