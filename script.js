@@ -1,6 +1,6 @@
 /* BARBEARIA BERTHOLDOS — interações e rastreamento */
-const SUPABASE_URL = "COLE_AQUI_SUA_SUPABASE_URL";
-const SUPABASE_ANON_KEY = "COLE_AQUI_SUA_SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://zjeclsozvjymuzwyhvqj.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_WyjaTHvDUwGPCwHaXcdApw_xlssm0TE";
 const WHATSAPP_NUMBER = "5585987232227";
 const MESSAGES = {
   navbar: "Olá, Jimmy e Sula! Gostaria de agendar um horário na Barbearia Bertholdos.",
@@ -19,8 +19,12 @@ function whatsappUrl(message){
 }
 
 function iniciarSupabase(){
-  if(typeof window.supabase === "undefined" || SUPABASE_URL.includes("COLE_AQUI") || SUPABASE_ANON_KEY.includes("COLE_AQUI")) return;
-  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  if(typeof window.supabase === "undefined") return;
+  try{
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }catch(error){
+    console.warn("Supabase indisponível:", error);
+  }
 }
 
 async function registrarLead(source){
@@ -42,7 +46,6 @@ function prepararWhatsApp(){
   document.querySelectorAll(".js-whatsapp").forEach(link=>{
     const source=link.dataset.lead||"whatsapp";
     const message=MESSAGES[source]||MESSAGES.hero;
-    // Fallback direto: o WhatsApp continua funcionando mesmo se algum CDN/script falhar.
     link.href=whatsappUrl(message);
     link.addEventListener("click",()=>registrarLead(source));
   });
