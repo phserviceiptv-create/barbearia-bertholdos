@@ -1,109 +1,26 @@
 /* BARBEARIA BERTHOLDOS — interações, prova social e rastreamento */
 const SUPABASE_URL = "https://zjeclsozvjymuzwyhvqj.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_WyjaTHvDUwGPCwHaXcdApw_xlssm0TE";
-const WHATSAPP_NUMBER = "5585987322227";
+const WHATSAPP_NUMBER = "5585987232227";
 const MESSAGES = {
-  navbar: "Olá, Jimmy e Sula! Gostaria de agendar um horário na Barbearia Bertholdos.",
-  hero: "Olá, Jimmy e Sula! Vim pelo site da Barbearia Bertholdos e gostaria de agendar um horário.",
+  navbar: "Olá, Jimmy e Sula! Gostaria de agendar um horário na Barbearia Bertholdos.", hero: "Olá, Jimmy e Sula! Vim pelo site da Barbearia Bertholdos e gostaria de agendar um horário.",
   "service-corte": "Olá, Jimmy e Sula! Vim pelo site e tenho interesse em agendar o serviço de Corte. Podem me informar os horários disponíveis?",
   "service-barba": "Olá, Jimmy e Sula! Vim pelo site e tenho interesse em agendar Barba + Toalha Quente. Podem me informar os horários disponíveis?",
   "service-selagem": "Olá, Jimmy e Sula! Vim pelo site e tenho interesse em agendar Selagem. Podem me informar os horários disponíveis?",
-  location: "Olá, Jimmy e Sula! Vim pelo site da Barbearia Bertholdos e gostaria de agendar um horário.",
-  footer: "Olá, Jimmy e Sula! Gostaria de agendar um horário na Barbearia Bertholdos.",
-  "floating-whatsapp": "Olá, Jimmy e Sula! Vim pelo site da Barbearia Bertholdos e gostaria de agendar um horário."
+  location: "Olá, Jimmy e Sula! Vim pelo site da Barbearia Bertholdos e gostaria de agendar um horário.", footer: "Olá, Jimmy e Sula! Gostaria de agendar um horário na Barbearia Bertholdos.", "floating-whatsapp": "Olá, Jimmy e Sula! Vim pelo site da Barbearia Bertholdos e gostaria de agendar um horário."
 };
 const REVIEWS = [
-  ["Aglairton Ferreira","Local Guide","Esse aí se garante e a esposa dele também. Eu recomendo sem medo do que estou falando.",true],
-  ["Raphael Ludovino Gomes","Local Guide","Ambiente climatizado, 2 profissionais q fazem bom corte, bom atendimento. Tem café, água e tv para clientes se distrair enquanto esperam.",true],
-  ["Diego Santos","Cliente","Muito bom mesmo. Além do atendimento ser bom Jimmy e Sula cortam profissionalmentes. Parabéns galera.",true],
-  ["Vinícius Leão","Local Guide","Só certo lá! Neste sábado, dia 12, completei minha saga de fidelidade e cortei o cabelo na faixa ! TOP de mais !",true],
-  ["Lucas De Matos","Cliente","Barbeiro sensacional ! Ele e a esposa cortam muito bem, com preço acessível, boa localização e sem falar que são muito gente boa.",true],
-  ["Filipe Ludovino","Local Guide","Excelentes profissionais, ambiente perfeito!!! Único lugar que meu pequeno gosta de cortar o cabelo!!",true],
-  ["Ellen Maia","Cliente","Tudo muito maravilhoso!! Jimmy é um excelente profissional!",true],
-  ["David Bryan","Cliente","espaço ótimo , com ótimos profissionais e preço acessível 👏🏽",true],
-  ["David Bertholdo","Cliente","Simplesmente porque ele é muito bom no que faz, eu recomendo!",true],
-  ["Carlos Alberto","Cliente","Atendimento excelente",true],
-  ["Itim Cell","Cliente","BARBEARIA TOP, AMBIENTE COM AR CONDICIONADO E FUNCIONÁRIOS ATENCIOSOS",true],
-  ["Ricardo Alexandre","Cliente","Muito bom o local e corte muito Jimmy.",true],
-  ["Itiin Sousa","Cliente","Muito agradável o local e com boa recepção!",true],
-  ["anderson ferreira","Local Guide","Mais brabro da Rosalina",true],
-  ["Celio Silva","Cliente","Muito bom",true],
-  ["Floriano Miranda","Local Guide","Trabalho com amor e dedicação.",true],
-  ["Alexandre Alves","Cliente","Ótimo.",true],
-  ["Antônio salgados","Cliente","Ótimo atendimento!",true],
-  ["Moises Lopes","Cliente","O mais brabo da região",true],
-  ["JA&F","Cliente","Cabelo e barba 👍",true],
-  ["Danilo Vieira","Cliente","... Bom de mais",true],
-  ["JULIANO CHAGAS","Cliente","Atendimento 10",true],
-  ["David Sousa","Local Guide","Os valores não é acessível para os clientes da comunidade onde a barbearia está localizada.",false]
+["Aglairton Ferreira","Local Guide","Esse aí se garante e a esposa dele também. Eu recomendo sem medo do que estou falando.",true],["Raphael Ludovino Gomes","Local Guide","Ambiente climatizado, 2 profissionais q fazem bom corte, bom atendimento. Tem café, água e tv para clientes se distrair enquanto esperam.",true],["Diego Santos","Cliente","Muito bom mesmo. Além do atendimento ser bom Jimmy e Sula cortam profissionalmentes. Parabéns galera.",true],["Vinícius Leão","Local Guide","Só certo lá! Neste sábado, dia 12, completei minha saga de fidelidade e cortei o cabelo na faixa ! TOP de mais !",true],["Lucas De Matos","Cliente","Barbeiro sensacional ! Ele e a esposa cortam muito bem, com preço acessível, boa localização e sem falar que são muito gente boa.",true],["Filipe Ludovino","Local Guide","Excelentes profissionais, ambiente perfeito!!! Único lugar que meu pequeno gosta de cortar o cabelo!!",true],["Ellen Maia","Cliente","Tudo muito maravilhoso!! Jimmy é um excelente profissional!",true],["David Bryan","Cliente","espaço ótimo , com ótimos profissionais e preço acessível 👏🏽",true],["David Bertholdo","Cliente","Simplesmente porque ele é muito bom no que faz, eu recomendo!",true],["Carlos Alberto","Cliente","Atendimento excelente",true],["Itim Cell","Cliente","BARBEARIA TOP, AMBIENTE COM AR CONDICIONADO E FUNCIONÁRIOS ATENCIOSOS",true],["Ricardo Alexandre","Cliente","Muito bom o local e corte muito Jimmy.",true],["Itiin Sousa","Cliente","Muito agradável o local e com boa recepção!",true],["anderson ferreira","Local Guide","Mais brabro da Rosalina",true],["Celio Silva","Cliente","Muito bom",true],["Floriano Miranda","Local Guide","Trabalho com amor e dedicação.",true],["Alexandre Alves","Cliente","Ótimo.",true],["Antônio salgados","Cliente","Ótimo atendimento!",true],["Moises Lopes","Cliente","O mais brabo da região",true],["JA&F","Cliente","Cabelo e barba 👍",true],["Danilo Vieira","Cliente","... Bom de mais",true],["JULIANO CHAGAS","Cliente","Atendimento 10",true],["David Sousa","Local Guide","Os valores não é acessível para os clientes da comunidade onde a barbearia está localizada.",false]
 ];
-const OTHER_REVIEWERS = ["Thomaz Rodrigues","fabio Vieira","Gabriel Lemos","João Anderson","Jonas Ferreira","C. Mendes Imóveis","Franciélio Silva","João Neto","Leandro Serpa","Raílle Marques","Maria Cruz","Felipe Ramon","Carllos Viktor","theo rodrigues da rocha","elielton filho","Fernanda Ludovino","Allana Silva","Rafael Silva","Dani Sousa","Wesley Jonas","Carlos Alexandre Teixeira","Caio Fernandes","Breno Nascimento","Gabriel Silva","Alfeu Praseres","V 1 S H","Israel Queiroz","Alex Alves","Isaías Alves"];
-let supabaseClient = null;
-
-function whatsappUrl(message){ return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`; }
-function iniciarSupabase(){
-  if(typeof window.supabase === "undefined") return;
-  try{ supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }
-  catch(error){ console.warn("Supabase indisponível:", error); }
-}
-async function registrarLead(source){
-  if(!supabaseClient) return;
-  try{
-    const {error}=await supabaseClient.from("leads").insert({event_type:"whatsapp_click",source:source||"unknown",page:window.location.pathname,user_agent:navigator.userAgent});
-    if(error) console.warn("Lead não salvo no Supabase:",error.message);
-  }catch(error){ console.warn("Falha ao registrar lead:",error); }
-}
-function prepararWhatsApp(){
-  document.querySelectorAll(".js-whatsapp").forEach(link=>{
-    const source=link.dataset.lead||"whatsapp";
-    link.href=whatsappUrl(MESSAGES[source]||MESSAGES.hero);
-    link.addEventListener("click",()=>registrarLead(source));
-  });
-}
-function iniciais(nome){ return nome.split(/\s+/).slice(0,2).map(p=>p[0]).join("").toUpperCase(); }
-function criarCard(review,index){
-  const [nome,perfil,comentario,positivo]=review;
-  const card=document.createElement("article");
-  card.className="testimonial reveal"+(index>=6?" review-extra":"");
-  card.innerHTML=`<div class="person"><div class="avatar">${iniciais(nome)}</div><div><strong>${nome}</strong><small>${perfil} • Google</small></div></div>${positivo?'<div class="stars">★★★★★</div>':'<div class="review-critical-label">AVALIAÇÃO CRÍTICA</div>'}<p>“${comentario}”</p>${nome==="David Sousa"?'<div class="owner-response"><strong>Resposta do proprietário — Barbearia Jimmy</strong><p>“Graças a Deus, me procuram pelo meu serviço não pelo valor”</p></div>':''}`;
-  return card;
-}
-function prepararAvaliacoes(){
-  const grid=document.querySelector(".testimonial-grid");
-  if(!grid) return;
-  grid.innerHTML="";
-  REVIEWS.forEach((review,index)=>grid.appendChild(criarCard(review,index)));
-  const style=document.createElement("style");
-  style.textContent='.review-extra{display:none}.review-extra.review-visible{display:block;animation:reviewIn .55s ease both}@keyframes reviewIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}.review-critical-label{margin:14px 0 10px;color:#c5a880;font-size:10px;font-weight:800;letter-spacing:1.5px}.owner-response{margin-top:16px;padding:14px 16px;border-left:3px solid #d4af37;background:rgba(212,175,55,.06);border-radius:8px}.owner-response strong{display:block;color:#f0d77a;font-size:11px;margin-bottom:5px}.owner-response p{font-style:normal!important;color:#aeb6c2!important}.other-reviewers{margin-top:35px;padding-top:28px;border-top:1px solid rgba(255,255,255,.07)}.other-reviewers h3{font-family:var(--serif);font-size:24px;margin-bottom:17px}.reviewer-list{display:flex;flex-wrap:wrap;gap:9px}.reviewer-list span{border:1px solid rgba(212,175,55,.18);background:rgba(255,255,255,.025);border-radius:999px;padding:7px 11px;color:#9da6b4;font-size:11px}.review-actions{text-align:center;margin-top:28px}';
-  document.head.appendChild(style);
-  const actions=document.createElement("div"); actions.className="review-actions";
-  actions.innerHTML='<button id="showReviews" class="btn btn-ghost" type="button">Ver mais avaliações</button>';
-  grid.parentNode.insertBefore(actions,grid.nextSibling);
-  const others=document.createElement("div"); others.className="other-reviewers";
-  others.innerHTML='<h3>Outros clientes que nos avaliaram com 5 estrelas</h3><div class="reviewer-list">'+OTHER_REVIEWERS.map(n=>`<span>${n}</span>`).join("")+'</div>';
-  actions.parentNode.insertBefore(others,actions.nextSibling);
-  const btn=actions.querySelector("button");
-  btn.addEventListener("click",()=>{
-    const open=btn.dataset.open==="1";
-    grid.querySelectorAll(".review-extra").forEach((card,i)=>{card.classList.toggle("review-visible",!open);card.style.animationDelay=!open?(i*35)+"ms":"";});
-    btn.dataset.open=open?"0":"1"; btn.textContent=open?"Ver mais avaliações":"Ocultar avaliações";
-  });
-}
-function prepararNavbar(){
-  const navbar=document.getElementById("navbar"); if(!navbar)return;
-  const update=()=>navbar.classList.toggle("scrolled",window.scrollY>20); update(); window.addEventListener("scroll",update,{passive:true});
-}
-function prepararRevelacao(){
-  const elements=document.querySelectorAll(".reveal"); if(!elements.length)return;
-  if(!( "IntersectionObserver" in window)){elements.forEach(e=>e.classList.add("visible"));return;}
-  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("visible");observer.unobserve(entry.target);}}),{threshold:.12});
-  elements.forEach(e=>observer.observe(e));
-}
-document.addEventListener("DOMContentLoaded",()=>{
-  iniciarSupabase();
-  prepararWhatsApp();
-  prepararAvaliacoes();
-  prepararNavbar();
-  prepararRevelacao();
-  const year=document.getElementById("year"); if(year)year.textContent=new Date().getFullYear();
-});
+const OTHER_REVIEWERS=["Thomaz Rodrigues","fabio Vieira","Gabriel Lemos","João Anderson","Jonas Ferreira","C. Mendes Imóveis","Franciélio Silva","João Neto","Leandro Serpa","Raílle Marques","Maria Cruz","Felipe Ramon","Carllos Viktor","theo rodrigues da rocha","elielton filho","Fernanda Ludovino","Allana Silva","Rafael Silva","Dani Sousa","Wesley Jonas","Carlos Alexandre Teixeira","Caio Fernandes","Breno Nascimento","Gabriel Silva","Alfeu Praseres","V 1 S H","Israel Queiroz","Alex Alves","Isaías Alves"];
+let supabaseClient=null;
+function whatsappUrl(message){return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;}
+function iniciarSupabase(){if(typeof window.supabase==="undefined")return;try{supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);}catch(error){console.warn("Supabase indisponível:",error);}}
+async function registrarLead(source){if(!supabaseClient)return;try{const {error}=await supabaseClient.from("leads").insert({event_type:"whatsapp_click",source:source||"unknown",page:window.location.pathname,user_agent:navigator.userAgent});if(error)console.warn("Lead não salvo no Supabase:",error.message);}catch(error){console.warn("Falha ao registrar lead:",error);}}
+function prepararWhatsApp(){document.querySelectorAll(".js-whatsapp").forEach(link=>{const source=link.dataset.lead||"whatsapp";link.href=whatsappUrl(MESSAGES[source]||MESSAGES.hero);link.addEventListener("click",()=>registrarLead(source));});}
+function iniciais(nome){return nome.split(/\s+/).slice(0,2).map(p=>p[0]).join("").toUpperCase();}
+function criarCard(review,index){const [nome,perfil,comentario,positivo]=review;const card=document.createElement("article");card.className="testimonial reveal"+(index>=6?" review-extra":"");card.innerHTML=`<div class="person"><div class="avatar">${iniciais(nome)}</div><div><strong>${nome}</strong><small>${perfil} • Google</small></div></div>${positivo?'<div class="stars">★★★★★</div>':'<div class="review-critical-label">AVALIAÇÃO CRÍTICA</div>'}<p>“${comentario}”</p>${nome==="David Sousa"?'<div class="owner-response"><strong>Resposta do proprietário — Barbearia Jimmy</strong><p>“Graças a Deus, me procuram pelo meu serviço não pelo valor”</p></div>':''}`;return card;}
+function prepararAvaliacoes(){const grid=document.querySelector(".testimonial-grid");if(!grid)return;grid.innerHTML="";REVIEWS.forEach((review,index)=>grid.appendChild(criarCard(review,index)));const style=document.createElement("style");style.textContent='.review-extra{display:none}.review-extra.review-visible{display:block;animation:reviewIn .55s ease both}@keyframes reviewIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}.review-critical-label{margin:14px 0 10px;color:#c5a880;font-size:10px;font-weight:800;letter-spacing:1.5px}.owner-response{margin-top:16px;padding:14px 16px;border-left:3px solid #d4af37;background:rgba(212,175,55,.06);border-radius:8px}.owner-response strong{display:block;color:#f0d77a;font-size:11px;margin-bottom:5px}.owner-response p{font-style:normal!important;color:#aeb6c2!important}.other-reviewers{margin-top:35px;padding-top:28px;border-top:1px solid rgba(255,255,255,.07)}.other-reviewers h3{font-family:var(--serif);font-size:24px;margin-bottom:17px}.reviewer-list{display:flex;flex-wrap:wrap;gap:9px}.reviewer-list span{border:1px solid rgba(212,175,55,.18);background:rgba(255,255,255,.025);border-radius:999px;padding:7px 11px;color:#9da6b4;font-size:11px}.review-actions{text-align:center;margin-top:28px}';document.head.appendChild(style);const actions=document.createElement("div");actions.className="review-actions";actions.innerHTML='<button id="showReviews" class="btn btn-ghost" type="button">Ver mais avaliações</button>';grid.parentNode.insertBefore(actions,grid.nextSibling);const others=document.createElement("div");others.className="other-reviewers";others.innerHTML='<h3>Outros clientes que nos avaliaram com 5 estrelas</h3><div class="reviewer-list">'+OTHER_REVIEWERS.map(n=>`<span>${n}</span>`).join("")+"</div>";actions.parentNode.insertBefore(others,actions.nextSibling);const btn=actions.querySelector("button");btn.addEventListener("click",()=>{const open=btn.dataset.open==="1";grid.querySelectorAll(".review-extra").forEach((card,i)=>{card.classList.toggle("review-visible",!open);card.style.animationDelay=!open?(i*35)+"ms":"";});btn.dataset.open=open?"0":"1";btn.textContent=open?"Ver mais avaliações":"Ocultar avaliações";});}
+function prepararNavbar(){const navbar=document.getElementById("navbar");if(!navbar)return;const update=()=>navbar.classList.toggle("scrolled",window.scrollY>20);update();window.addEventListener("scroll",update,{passive:true});}
+function prepararRevelacao(){const elements=document.querySelectorAll(".reveal");if(!elements.length)return;if(!("IntersectionObserver" in window)){elements.forEach(e=>e.classList.add("visible"));return;}const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("visible");observer.unobserve(entry.target);}}),{threshold:.12});elements.forEach(e=>observer.observe(e));}
+document.addEventListener("DOMContentLoaded",()=>{iniciarSupabase();prepararWhatsApp();prepararAvaliacoes();prepararNavbar();prepararRevelacao();const year=document.getElementById("year");if(year)year.textContent=new Date().getFullYear();});
