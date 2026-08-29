@@ -1,41 +1,39 @@
 /* =========================================================
    BARBEARIA BERTHOLDOS
-   Supabase + rastreamento de cliques/leads
+   WhatsApp + rastreamento opcional via Supabase
    ========================================================= */
 
-/* 1) COLE AQUI AS SUAS CHAVES DO SUPABASE */
+/* Supabase é opcional. A página funciona normalmente sem ele. */
 const SUPABASE_URL = "COLE_AQUI_SUA_SUPABASE_URL";
 const SUPABASE_ANON_KEY = "COLE_AQUI_SUA_SUPABASE_ANON_KEY";
 
-/* WhatsApp oficial da barbearia */
-const WHATSAPP_URL =
-  "https://wa.me/5585987232227?text=" +
-  encodeURIComponent("Olá, Jimmy e Sula! Gostaria de agendar um horário na Barbearia Bertholdos.");
+const WHATSAPP_NUMBER = "5585987232227";
+const MESSAGES = {
+  navbar: "Olá, Jimmy e Sula! Gostaria de agendar um horário na Barbearia Bertholdos.",
+  hero: "Olá, Jimmy e Sula! Vim pelo site da Barbearia Bertholdos e gostaria de agendar um horário.",
+  "service-corte": "Olá, Jimmy e Sula! Vim pelo site e tenho interesse em agendar o serviço de Corte. Podem me informar os horários disponíveis?",
+  "service-barba": "Olá, Jimmy e Sula! Vim pelo site e tenho interesse em agendar Barba + Toalha Quente. Podem me informar os horários disponíveis?",
+  "service-selagem": "Olá, Jimmy e Sula! Vim pelo site e tenho interesse em agendar Selagem. Podem me informar os horários disponíveis?",
+  location: "Olá, Jimmy e Sula! Vim pelo site da Barbearia Bertholdos e gostaria de agendar um horário.",
+  footer: "Olá, Jimmy e Sula! Gostaria de agendar um horário na Barbearia Bertholdos.",
+  "floating-whatsapp": "Olá, Jimmy e Sula! Vim pelo site da Barbearia Bertholdos e gostaria de agendar um horário."
+};
 
 let supabaseClient = null;
 
-/* Inicializa o Supabase sem impedir a página de funcionar caso
-   as chaves ainda não tenham sido preenchidas. */
 function iniciarSupabase() {
   if (
     typeof window.supabase === "undefined" ||
     SUPABASE_URL.includes("COLE_AQUI") ||
     SUPABASE_ANON_KEY.includes("COLE_AQUI")
   ) {
-    console.info("Supabase ainda não configurado. WhatsApp continua funcionando normalmente.");
+    console.info("Supabase não configurado. O WhatsApp continua funcionando normalmente.");
     return;
   }
 
-  supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
-/* Salva um evento na tabela 'leads'.
-   Sugestão de colunas:
-   id, event_type, source, page, user_agent, created_at
-*/
 async function registrarLead(source) {
   if (!supabaseClient) return;
 
@@ -47,9 +45,7 @@ async function registrarLead(source) {
       user_agent: navigator.userAgent
     });
 
-    if (error) {
-      console.warn("Lead não salvo no Supabase:", error.message);
-    }
+    if (error) console.warn("Lead não salvo no Supabase:", error.message);
   } catch (error) {
     console.warn("Falha ao registrar lead:", error);
   }
@@ -57,16 +53,17 @@ async function registrarLead(source) {
 
 function prepararWhatsApp() {
   document.querySelectorAll(".js-whatsapp").forEach((link) => {
-    link.href = WHATSAPP_URL;
+    const source = link.dataset.lead || "whatsapp";
+    const message = MESSAGES[source] || MESSAGES.hero;
+    link.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-    link.addEventListener("click", () => {
-      registrarLead(link.dataset.lead || "whatsapp");
-    });
+    link.addEventListener("click", () => registrarLead(source));
   });
 }
 
 function prepararNavbar() {
   const navbar = document.getElementById("navbar");
+  if (!navbar) return;
 
   window.addEventListener("scroll", () => {
     navbar.classList.toggle("scrolled", window.scrollY > 20);
@@ -75,6 +72,12 @@ function prepararNavbar() {
 
 function prepararRevelacao() {
   const elements = document.querySelectorAll(".reveal");
+  if (!elements.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    elements.forEach((element) => element.classList.add("visible"));
+    return;
+  }
 
   const observer = new IntersectionObserver(
     (entries) => {
